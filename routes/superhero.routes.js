@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const superheroController = require('../controllers/superhero.controller')
+const { jsonResponse } = require('../lib/helper')
+const { verifyToken } = require('../middleware/auth.middleware')
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const result = await superheroController.add(req.body)
-    res.json(result)
+    res.json(jsonResponse(result))
   } catch (err) {
-    res.json(err.message)
+    res.json(jsonResponse(err.message, false))
   }
 })
 

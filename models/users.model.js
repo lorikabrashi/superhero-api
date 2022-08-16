@@ -4,12 +4,19 @@ const usersSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true, unique: true },
+    email: { 
+      type: String, 
+      required: true, 
+      lowercase: true, 
+      unique: true, 
+      trim: true, 
+      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] },
     age: { type: Number, min: 1 },
     password: { type: String, required: true },
     profilePicture: { type: String },
     role: { type: String, enum: Object.values(constants.role), required: true, default: constants.role.USER },
     verified: { type: Boolean, default: false },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Superheros' }],
   },
   {
     timestamps: true,
