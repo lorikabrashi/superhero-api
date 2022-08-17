@@ -10,5 +10,5 @@
 
     EMAIL_HOST = smtp.dreamhost.com
     EMAIL = hello@silly.pristine-tech.com
-    EMAIL_PASS = email.open();
+    EMAIL_PASS = 
     EMAIL_PORT=587
