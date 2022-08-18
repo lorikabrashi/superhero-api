@@ -30,9 +30,7 @@ module.exports = {
     if (!user) {
       throw Error('Email does not exist')
     }
-    
     const token = jwt.sign({ _id: user._id, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 12 }, process.env.JWT_FORGOT_PASSWORD_SECRET)
-  
-    await emailService.sendForgotPasswordEmail(email, token)
+    return await emailService.sendForgotPasswordEmail(email, token)
   },
 }
