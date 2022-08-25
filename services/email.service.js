@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer')
-const { forgotPassword } = require('../controllers/auth.controller')
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -11,7 +10,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const forgotPasswordTemplate = (token) => {
-  const  url = `https://frontlink.com/forgot-password?token=${token}`;
+  const  url = `${process.env.FRONT_URL}/forgot-password?token=${token}`;
   return {
     subject: 'Super Hero app (Forgot Password)',
     text: `Seems like you forgot your password for super hero app. if this is true, click on the link below to reset your password \n ${url}`,
@@ -23,7 +22,7 @@ const forgotPasswordTemplate = (token) => {
 }
 
 const verifyUserTemplate = (token) => {
-  const  url = `https://frontlink.com/verify?token=${token}`;
+  const  url = `${process.env.FRONT_URL}/verify?token=${token}`;
   return {
     subject: 'Super Hero app (Verify account)',
     text: `To verify your account click on the link below... \n ${url}`,
@@ -36,7 +35,7 @@ const verifyUserTemplate = (token) => {
 
 module.exports = {
   sendForgotPasswordEmail: async (email, token) => {
-
+    console.log('send password func')
     const body = forgotPasswordTemplate(token)
 
     const info = await transporter.sendMail({

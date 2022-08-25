@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const emailService = require('../services/email.service')
-
 module.exports = {
   login: async (params) => {
     const { email, password } = params
@@ -30,7 +29,12 @@ module.exports = {
     if (!user) {
       throw Error('Email does not exist')
     }
+    console.log('email found!')
+
     const token = jwt.sign({ _id: user._id, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 12 }, process.env.JWT_FORGOT_PASSWORD_SECRET)
+    console.log('token', token)
+
+
     return await emailService.sendForgotPasswordEmail(email, token)
   },
 }
