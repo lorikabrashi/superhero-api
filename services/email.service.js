@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const forgotPasswordTemplate = (token) => {
-  const  url = `${process.env.FRONT_URL}/forgot-password?token=${token}`;
+  const  url = `${process.env.FRONT_URL}/reset-password?token=${token}`;
   return {
     subject: 'Super Hero app (Forgot Password)',
     text: `Seems like you forgot your password for super hero app. if this is true, click on the link below to reset your password \n ${url}`,
