@@ -21,7 +21,12 @@ module.exports = {
       throw Error('Password is incorrect')
     }
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
-    return token
+    
+    return {
+      token,
+      role: user.role
+    }
+
   },
   forgotPassword: async (params) => {
     const { email } = params

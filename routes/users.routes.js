@@ -20,11 +20,10 @@ router.put('/forgot-password', verifyForgotPasswordToken, password, validate, as
 })
 
 router.put('/verify', verifyRegistrationToken, async (req, res) => {
-  try{
+  try {
     const response = await userController.verifyAccount(req.decoded)
     res.json(jsonResponse(response))
-  }
-  catch(err){
+  } catch (err) {
     res.status(500).json(jsonResponse(err.message, false))
   }
 })

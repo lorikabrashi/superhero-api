@@ -2,10 +2,27 @@ const mongoose = require('mongoose')
 
 const superheroSchema = new mongoose.Schema(
   {
-    nickname: { type: String, required: true },
-    power: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    name: {type: String, required: true},
+    powerstats: {
+      intelligence: Number,
+      strength: Number,
+      speed: Number,
+      durability: Number,
+      power: Number,
+      combat: Number
+    },
+    appearance: {
+      gender: String,
+      race: String,
+    },
+    biography: {
+      fullName: String,
+      aliases: [String],
+      alignment: String
+    },
+    images: {
+      lg: String
+    }
   },
   {
     timestamps: true,
