@@ -19,7 +19,19 @@ module.exports = {
     return result
   },
   getAdmins: async () => {
-    const result = await usersModel.findOne({'role': constants.role.ADMIN})
+    const result = await usersModel.findOne({ role: constants.role.ADMIN })
+    return result
+  },
+  getFavorites: async (_id) => {
+    const result = await usersModel.findById(_id).select('favorites').exec()
+    return result
+  },
+  addFavorite: async (userID, superheroID) => {
+    const result = await usersModel.updateOne({ _id: userID }, { $push: { favorites: superheroID } }).exec()
+    return result
+  },
+  removeFavorite: async (userID, superheroID) => {
+    const result = await usersModel.updateOne({ _id: userID }, { $pull: { favorites: superheroID } }).exec()
     return result
   }
 }

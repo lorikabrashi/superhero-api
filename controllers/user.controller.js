@@ -33,19 +33,32 @@ module.exports = {
     return result._id
   },
   checkForAdmin: async () => {
-    
     const admins = await userService.getAdmins()
-    if(!admins){
+    if (!admins) {
       const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASS, parseInt(process.env.SALT))
       const admin = {
-        firstName: "ADMIN",
-        lastName: "ADMIN",
+        firstName: 'ADMIN',
+        lastName: 'ADMIN',
         email: process.env.ADMIN_EMAIL,
         password: hashedPassword,
         verified: true,
-        role: constants.role.ADMIN 
+        role: constants.role.ADMIN,
       }
       userService.insert(admin)
     }
-  }
+  },
+  getUserFavorites: async (userId) => {
+    const result = await userService.getFavorites(userId)
+    return result
+  },
+  updateFavorite: async (userId, superheroId) => {
+    const favoriteList = await userService.getFavorites(userId)
+    if (favoriteList.favorites.includes(superheroId)) {
+      await userService.removeFavorite(userId, superheroId)
+    } else {
+      await userService.addFavorite(userId, superheroId)
+    }
+    const result = await userService.getFavorites(userId)
+    return result
+  },
 }

@@ -19,6 +19,7 @@ const validators = {
   ],
   email: emailCheck,
   password: passwordCheck,
+  idCheck: [ check('_id', 'Not a valid ID').isMongoId() ],
   
   validate: (req, res, next) => {
     const { errors } = validationResult(req)
