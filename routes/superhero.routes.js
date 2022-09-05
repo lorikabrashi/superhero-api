@@ -15,6 +15,27 @@ router.get('/all', verifyToken, async (req, res) => {
   }
 })
 
+router.get('/:id', verifyToken, async (req, res) => {
+  try{
+    const result = await superheroController.getSuperhero(req.params.id)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
+    res.json(jsonResponse(err.message, false))
+  }
+})
+
+router.post('/:id', verifyToken, async (req, res) => {  
+  try{
+    const result = await superheroController.editSuperhero(req.params.id, req.body)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
+    res.json(jsonResponse(err.message, false))
+  }
+
+})
+
 router.post('/', verifyToken, async (req, res) => {
   try {
     const result = await superheroController.add(req.body)
