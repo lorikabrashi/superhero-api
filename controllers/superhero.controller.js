@@ -15,5 +15,13 @@ module.exports = {
   editSuperhero: async (id, data) => {
     const result = await superheroService.editById(id, data)
     return result
+  },
+  changeImage: async (id, file) => {
+    let fileName = null
+    if(file){
+      fileName = `/images/${file.filename}` 
+    }    
+    const result = await superheroService.changeImage(id, fileName)
+    return result 
   }
 }

@@ -13,7 +13,11 @@ module.exports = {
     return result
   },
   editById: async (id, data) => {
-    const result = await superheroModel.findByIdAndUpdate(id, data) 
+    const result = await superheroModel.findByIdAndUpdate(id, data)
     return result
-  }
+  },
+  changeImage: async (id, fileName) => {
+    const result = await superheroModel.findByIdAndUpdate(id, { images: fileName })
+    return result
+  },
 }

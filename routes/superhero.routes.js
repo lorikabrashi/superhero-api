@@ -3,7 +3,7 @@ const router = express.Router()
 const superheroController = require('../controllers/superhero.controller')
 const { jsonResponse } = require('../lib/helper')
 const { verifyToken } = require('../middleware/auth.middleware')
-
+const upload = require('../services/upload.service')
 
 router.get('/all', verifyToken, async (req, res) => {
   try{
@@ -41,6 +41,16 @@ router.post('/', verifyToken, async (req, res) => {
     const result = await superheroController.add(req.body)
     res.json(jsonResponse(result))
   } catch (err) {
+    res.json(jsonResponse(err.message, false))
+  }
+})
+
+router.post('/edit-image/:id', verifyToken, upload.single('superhero-image'), async (req, res) => {
+  try{
+    const result = await superheroController.changeImage(req.params.id, req.file)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
     res.json(jsonResponse(err.message, false))
   }
 })
