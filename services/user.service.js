@@ -33,5 +33,18 @@ module.exports = {
   removeFavorite: async (userID, superheroID) => {
     const result = await usersModel.updateOne({ _id: userID }, { $pull: { favorites: superheroID } }).exec()
     return result
+  },
+  getUser: async (userID) => {
+    const result = await usersModel.findById(userID).select('-password')
+    return result
+  },
+  updateUser: async (userID, data) => {
+    const result = await usersModel.findByIdAndUpdate(userID, data).exec()
+    return result._id
+  },
+  updatePicture: async (userID, fileName) => {
+    const result = await usersModel.findByIdAndUpdate(userID, {profilePicture: fileName}).exec()
+    return result._id
   }
+
 }

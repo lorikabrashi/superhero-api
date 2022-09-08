@@ -8,6 +8,8 @@ const { jsonResponse } = require('../lib/helper')
 const { verifyForgotPasswordToken, verifyRegistrationToken } = require('../middleware/auth.middleware')
 const { idCheck, password, validate } = require('../middleware/field.middleware')
 
+const upload = require('../services/upload.service')
+
 router.get('/', (req, res) => {
   res.json(jsonResponse('ok'))
 })
@@ -47,4 +49,35 @@ router.post('/update-favorite', verifyToken, idCheck, validate, async (req, res)
     res.json(jsonResponse(err.message, false))
   }
 })
+
+router.get('/me', verifyToken, async (req, res) => {
+  try{
+    const result = await userController.getProfile(req.decoded)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
+    res.json(jsonResponse(err.message, false))
+  }
+})
+
+router.post('/update-profile', verifyToken, async (req, res) => {
+  try{
+    const result = await userController.updateProfile(req.decoded, req.body)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
+    res.json(jsonResponse(err.message, false))
+  }
+})
+
+router.post('/update-profile-picture', verifyToken, upload.single('profile-image'), async(req, res) => {
+  try{
+    const result = await userController.updateProfilePicture(req.decoded, req.file)
+    res.json(jsonResponse(result))
+  }
+  catch(err){
+    res.json(jsonResponse(err.message, false))
+  }
+})
+
 module.exports = router

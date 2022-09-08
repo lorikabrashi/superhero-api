@@ -61,4 +61,21 @@ module.exports = {
     const result = await userService.getFavorites(userId)
     return result
   },
+  getProfile: async (userId) => {
+    const result = await userService.getUser(userId)
+    return result
+  },
+  updateProfile: async (userId, data) => {
+    const result = await userService.updateUser(userId, data)
+    return result
+  },
+  updateProfilePicture: async (userId, file) => {
+    let fileName = null
+    if(file){
+      fileName = `/images/${file.filename}` 
+    }
+    const result = await userService.updatePicture(userId, fileName)
+    return result
+  }
+
 }
